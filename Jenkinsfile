@@ -58,6 +58,7 @@ pipeline {
 
         sh 'helm install $WORKSPACE/charts/domain1 --name domain1 --namespace sample-domain1-ns --set Version=v1,ImageName=$IMAGE1_NAME'
         sleep 60
+	sh 'chmod +x $WORKSPACE/*.sh'
         sh '$WORKSPACE/waitAndCheckAllPodStart.sh'
         sh 'curl -H \'host: domain1.org\' http://${HOSTNAME}.us.oracle.com:30305/testwebapp1/'
       }
