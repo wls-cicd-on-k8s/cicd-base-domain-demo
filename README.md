@@ -1,6 +1,6 @@
 ## WebLogic CICD Demo for seeding-domain approach
 
-This project provides a jenkins pipeline of WebLogic CICD Demo for seeding-domain approach. Its steps reference to the URL https://github.com/oracle/weblogic-kubernetes-operator/blob/develop-examples-poc/kubernetes/examples/demo-wdt-cicd1.md
+This project provides a jenkins pipeline of WebLogic CICD Demo for seeding-domain approach. Its steps reference to the URL https://github.com/oracle/weblogic-kubernetes-operator/blob/develop-examples-poc/kubernetes/examples/demo-wdt-cicd1.md. 
 You can read the Jenkinsfile to get the detail.
 
 ### scenario:
