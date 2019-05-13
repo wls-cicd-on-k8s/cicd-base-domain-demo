@@ -162,7 +162,7 @@ pipeline {
     }
   }
   environment {
-    IMAGE1_NAME = 'changharry126com/domain1'
+    IMAGE1_NAME = 'wlscicdonk8s/domain1'
     http_proxy = 'http://www-proxy-hqdc.us.oracle.com:80'
     https_proxy = 'http://www-proxy-hqdc.us.oracle.com:80'
     no_proxy = 'localhost,127.0.0.1,.us.oracle.com,.oraclecorp.com,/var/run/docker.sock,10.241.99.189,10.241.99.190'
