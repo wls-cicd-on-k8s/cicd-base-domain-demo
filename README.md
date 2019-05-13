@@ -1,4 +1,8 @@
 ## WebLogic CICD Demo for seeding-domain approach
+
+This project provides a jenkins pipeline of WebLogic CICD Demo for seeding-domain approach. Its steps reference to the URL https://github.com/oracle/weblogic-kubernetes-operator/blob/develop-examples-poc/kubernetes/examples/demo-wdt-cicd1.md
+You can read the Jenkinsfile to get the detail.
+
 ### scenario:
     want each version to create a new rolling restartable image that can change
     the app binaries, the weblogic configuration (e.g. deploy new apps) and the
@@ -23,7 +27,7 @@
     - install traefik
     - create the sample-domains1-ns namespace
     - register that namespace with the operator and traefik
-    - 
+    
 ### Steps
 #### step 1 - create a secret containing the WLS admin credentials, create the base domain definition & image, create the ingress for the domain
 ```
