@@ -10,8 +10,8 @@ pipeline {
       steps {
         echo 'step 1 - create a secret containing the WLS admin credentials, create the base domain definition & image, create the ingress for the domain'
         sh '''
-		      git clone -b develop-examples-poc https://github.com/oracle/weblogic-kubernetes-operator.git
-		   '''
+	     git clone -b develop-examples-poc https://github.com/oracle/weblogic-kubernetes-operator.git
+           '''
         dir(path: 'weblogic-kubernetes-operator/kubernetes/examples') {
           sh 'kubectl create secret generic -n sample-domain1-ns domain1-uid-weblogic-credentials --from-literal=username=weblogic --from-literal=password=welcome1'
           sh 'kubectl label secret -n sample-domain1-ns domain1-uid-weblogic-credentials weblogic.domainUID=domain1-uid weblogic.domainName=domain1'
