@@ -24,7 +24,8 @@ pipeline {
           sh '''
               ENCODED_ADMIN_USERNAME=`kubectl get secret -n sample-domain1-ns domain1-uid-weblogic-credentials -o jsonpath=\'{.data.username}\'`
               ENCODED_ADMIN_PASSWORD=`kubectl get secret -n sample-domain1-ns domain1-uid-weblogic-credentials -o jsonpath=\'{.data.password}\'`
-              docker build --build-arg ENCODED_ADMIN_USERNAME=${ENCODED_ADMIN_USERNAME} --build-arg ENCODED_ADMIN_PASSWORD=${ENCODED_ADMIN_PASSWORD} --force-rm=true -t $IMAGE1_NAME:base domain1-def
+              docker build --build-arg ENCODED_ADMIN_USERNAME=${ENCODED_ADMIN_USERNAME} --build-arg ENCODED_ADMIN_PASSWORD=${ENCODED_ADMIN_PASSWORD} --force-rm=true -t domain1:base domain1-def
+
             '''
 
           sh 'cp load-balancers/domain-traefik.yaml domain1-lb.yaml'
