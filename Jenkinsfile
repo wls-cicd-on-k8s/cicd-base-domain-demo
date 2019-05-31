@@ -6,7 +6,7 @@ pipeline {
 
   }
   stages {
-    stage('create_seed_domain') {
+    stage('create_base_domain_image') {
       steps {
         echo 'step 1 - create a secret containing the WLS admin credentials, create the base domain definition & image, create the ingress for the domain'
         sh '''
@@ -18,19 +18,15 @@ pipeline {
           sh 'rm -rf domain1-def'
           sh 'pwd'
           sh 'cp -rf cicd/domain-definitions/base domain1-def'
-          sh 'cp cicd/domain-home-creators/base/Dockerfile1 domain1-def/Dockerfile'
+          sh 'cp cicd/domain-home-creators/base/Dockerfile2 domain1-def/Dockerfile'
           sh 'wget https://github.com/oracle/weblogic-deploy-tooling/releases/download/weblogic-deploy-tooling-0.24/weblogic-deploy.zip'
           sh 'cp weblogic-deploy.zip domain1-def'
           sh '''
-          	  ENCODED_ADMIN_USERNAME=`kubectl get secret -n sample-domain1-ns domain1-uid-weblogic-credentials -o jsonpath=\'{.data.username}\'`
+              ENCODED_ADMIN_USERNAME=`kubectl get secret -n sample-domain1-ns domain1-uid-weblogic-credentials -o jsonpath=\'{.data.username}\'`
               ENCODED_ADMIN_PASSWORD=`kubectl get secret -n sample-domain1-ns domain1-uid-weblogic-credentials -o jsonpath=\'{.data.password}\'`
-              docker build --build-arg ENCODED_ADMIN_USERNAME=${ENCODED_ADMIN_USERNAME} --build-arg ENCODED_ADMIN_PASSWORD=${ENCODED_ADMIN_PASSWORD} --force-rm=true -t domain1:base domain1-def
+              docker build --build-arg ENCODED_ADMIN_USERNAME=${ENCODED_ADMIN_USERNAME} --build-arg ENCODED_ADMIN_PASSWORD=${ENCODED_ADMIN_PASSWORD} --force-rm=true -t $IMAGE1_NAME:base domain1-def
             '''
-          sh 'docker run --detach --name domain1-base domain1:base'
-          sleep 60
-          sh 'docker cp domain1-base:/u01/domain1.zip .'
-          sh 'docker rm -f domain1-base'
-          sh 'docker rmi domain1:base'
+
           sh 'cp load-balancers/domain-traefik.yaml domain1-lb.yaml'
           sh 'kubectl apply -f domain1-lb.yaml'
         }
@@ -44,9 +40,9 @@ pipeline {
         dir(path: 'weblogic-kubernetes-operator/kubernetes/examples') {
           sh 'rm -r domain1-def'
           sh 'cp -r cicd/domain-definitions/v1 domain1-def'
-          sh 'cp cicd/domain-home-creators/derived/Dockerfile1 domain1-def/Dockerfile'
+          sh 'cp cicd/domain-home-creators/derived/Dockerfile2 domain1-def/Dockerfile'
           sh 'cp weblogic-deploy.zip domain1-def'
-          sh 'cp domain1.zip domain1-def'
+         
           sh 'docker build --force-rm=true -t $IMAGE1_NAME:v1 --no-cache --force-rm domain1-def'
         }
 
@@ -70,9 +66,9 @@ pipeline {
         dir(path: 'weblogic-kubernetes-operator/kubernetes/examples') {
           sh 'rm -rf domain1-def'
           sh 'cp -r cicd/domain-definitions/v2 domain1-def'
-          sh 'cp cicd/domain-home-creators/derived/Dockerfile1 domain1-def/Dockerfile'
+          sh 'cp cicd/domain-home-creators/derived/Dockerfile2 domain1-def/Dockerfile'
           sh 'cp weblogic-deploy.zip domain1-def'
-          sh 'cp domain1.zip domain1-def'
+          
           sh 'docker build --force-rm=true -t $IMAGE1_NAME:v2 --no-cache --force-rm domain1-def'
         }
 
@@ -95,9 +91,9 @@ pipeline {
         dir(path: 'weblogic-kubernetes-operator/kubernetes/examples') {
           sh 'rm -rf domain1-def'
           sh 'cp -r cicd/domain-definitions/v3 domain1-def'
-          sh 'cp cicd/domain-home-creators/derived/Dockerfile1 domain1-def/Dockerfile'
+          sh 'cp cicd/domain-home-creators/derived/Dockerfile2 domain1-def/Dockerfile'
           sh 'cp weblogic-deploy.zip domain1-def'
-          sh 'cp domain1.zip domain1-def'
+         
           sh 'docker build --force-rm=true -t $IMAGE1_NAME:v3 --no-cache --force-rm domain1-def'
         }
 
@@ -121,9 +117,9 @@ pipeline {
         dir(path: 'weblogic-kubernetes-operator/kubernetes/examples') {
           sh 'rm -rf domain1-def'
           sh 'cp -r cicd/domain-definitions/v4 domain1-def'
-          sh 'cp cicd/domain-home-creators/derived/Dockerfile1 domain1-def/Dockerfile'
+          sh 'cp cicd/domain-home-creators/derived/Dockerfile2 domain1-def/Dockerfile'
           sh 'cp weblogic-deploy.zip domain1-def'
-          sh 'cp domain1.zip domain1-def'
+          
           sh 'docker build --force-rm=true -t $IMAGE1_NAME:v4 --no-cache --force-rm domain1-def'
         }
 
@@ -155,7 +151,7 @@ pipeline {
           sh 'kubectl delete secret -n sample-domain1-ns domain1-uid-weblogic-credentials'
           sh 'rm domain1-lb.yaml'
           sh 'rm -rf domain1-def'
-          sh 'rm domain1.zip'
+         
         }
 
       }
