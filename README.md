@@ -25,7 +25,7 @@ You can read the Jenkinsfile to get the detail.
     - register that namespace with the operator and traefik
     
 ### Steps
-### step 1 - create a secret containing the WLS admin credentials, create the base domain definition & image, create the ingress for the domain
+#### step 1 - create a secret containing the WLS admin credentials, create the base domain definition & image, create the ingress for the domain
 ```
 kubectl create secret generic -n sample-domain1-ns domain1-uid-weblogic-credentials \
   --from-literal=username=weblogic --from-literal=password=welcome1
@@ -41,8 +41,8 @@ docker build --build-arg ENCODED_ADMIN_USERNAME=${ENCODED_ADMIN_USERNAME} --buil
 cp load-balancers/domain-traefik.yaml domain1-lb.yaml
 kubectl apply -f domain1-lb.yaml
 ```
-### step 2 - create the v1 domain definition & image, create the domain resource and wait for the servers to start
-### note: v1 has testwebapp1-v1 (initial app)
+#### step 2 - create the v1 domain definition & image, create the domain resource and wait for the servers to start
+note: v1 has testwebapp1-v1 (initial app)
 ```
 rm -r domain1-def
 cp -r cicd/domain-definitions/v1 domain1-def
@@ -54,8 +54,8 @@ kubectl get po -n sample-domain1-ns && curl -H 'host: domain1.org' http://${HOST
   (until admin server and managed server are running)
 ```
 
-### step 3 - create the v2 domain definition & image, create the domain resource and wait for the servers to roll
-### note: v2 has testwebapp1-v2 (new version of of the first app)
+#### step 3 - create the v2 domain definition & image, create the domain resource and wait for the servers to roll
+note: v2 has testwebapp1-v2 (new version of of the first app)
 ```
 rm -r domain1-def
 cp -r cicd/domain-definitions/v2 domain1-def
@@ -67,8 +67,8 @@ kubectl get po -n sample-domain1-ns && curl -H 'host: domain1.org' http://${HOST
   (until admin server and managed server are restarted)
 ```
 
-### step 4 - create the v3 domain definition & image, create the domain resource and wait for the servers to roll
-### note: v3 has testwebapp1-v2 & testwabapp2-v1 (same version of the first app, adds the first version of the second app)
+#### step 4 - create the v3 domain definition & image, create the domain resource and wait for the servers to roll
+note: v3 has testwebapp1-v2 & testwabapp2-v1 (same version of the first app, adds the first version of the second app)
 ```
 rm -r domain1-def
 cp -r cicd/domain-definitions/v3 domain1-def
@@ -80,8 +80,8 @@ kubectl get po -n sample-domain1-ns && curl -H 'host: domain1.org' http://${HOST
   (until admin server and managed server are running)
 ```
 
-### step 5 - create the v4 domain definition & image, create the domain resource and wait for the servers to roll
-### note: v4 only testwebapp2-v2 (removes the first app, new version of the second app)
+#### step 5 - create the v4 domain definition & image, create the domain resource and wait for the servers to roll
+note: v4 only testwebapp2-v2 (removes the first app, new version of the second app)
 ```
 rm -r domain1-def
 cp -r cicd/domain-definitions/v4 domain1-def
@@ -93,7 +93,7 @@ kubectl get po -n sample-domain1-ns && curl -H 'host: domain1.org' http://${HOST
   (until admin server and managed server are running)
 ```
 
-### step 6 - teardown
+#### step 6 - teardown
 ```
 kubectl delete -f domain1-lb.yaml
 helm delete --purge domain1
