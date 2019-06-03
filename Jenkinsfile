@@ -27,7 +27,6 @@ pipeline {
               docker build --build-arg ENCODED_ADMIN_USERNAME=${ENCODED_ADMIN_USERNAME} --build-arg ENCODED_ADMIN_PASSWORD=${ENCODED_ADMIN_PASSWORD} --force-rm=true -t domain1:base domain1-def
 
             '''
-
           sh 'cp load-balancers/domain-traefik.yaml domain1-lb.yaml'
           sh 'kubectl apply -f domain1-lb.yaml'
         }
@@ -43,7 +42,6 @@ pipeline {
           sh 'cp -r cicd/domain-definitions/v1 domain1-def'
           sh 'cp cicd/domain-home-creators/derived/Dockerfile2 domain1-def/Dockerfile'
           sh 'cp weblogic-deploy.zip domain1-def'
-         
           sh 'docker build --force-rm=true -t $IMAGE1_NAME:v1 --no-cache --force-rm domain1-def'
         }
 
@@ -69,7 +67,6 @@ pipeline {
           sh 'cp -r cicd/domain-definitions/v2 domain1-def'
           sh 'cp cicd/domain-home-creators/derived/Dockerfile2 domain1-def/Dockerfile'
           sh 'cp weblogic-deploy.zip domain1-def'
-          
           sh 'docker build --force-rm=true -t $IMAGE1_NAME:v2 --no-cache --force-rm domain1-def'
         }
 
@@ -94,7 +91,6 @@ pipeline {
           sh 'cp -r cicd/domain-definitions/v3 domain1-def'
           sh 'cp cicd/domain-home-creators/derived/Dockerfile2 domain1-def/Dockerfile'
           sh 'cp weblogic-deploy.zip domain1-def'
-         
           sh 'docker build --force-rm=true -t $IMAGE1_NAME:v3 --no-cache --force-rm domain1-def'
         }
 
@@ -120,7 +116,6 @@ pipeline {
           sh 'cp -r cicd/domain-definitions/v4 domain1-def'
           sh 'cp cicd/domain-home-creators/derived/Dockerfile2 domain1-def/Dockerfile'
           sh 'cp weblogic-deploy.zip domain1-def'
-          
           sh 'docker build --force-rm=true -t $IMAGE1_NAME:v4 --no-cache --force-rm domain1-def'
         }
 
@@ -152,7 +147,6 @@ pipeline {
           sh 'kubectl delete secret -n sample-domain1-ns domain1-uid-weblogic-credentials'
           sh 'rm domain1-lb.yaml'
           sh 'rm -rf domain1-def'
-         
         }
 
       }
